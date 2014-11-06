@@ -1,0 +1,5 @@
+TODO
+
+- Create a win condition.
+- When an empty square is left-clicked, it reveals all connected empty squares, then all numbered squares adjacent to them. "Domino effect."
+- When a numbered square is clicked (left or right) and all adjacent mines are flagged, it reveals adjacent empty and numbered squares. If it reveals an empty square, the domino effect takes place again.
