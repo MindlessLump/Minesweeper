@@ -1,8 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.Random;
+import java.util.List;
+import java.util.Iterator;
 
 public class GameWorld extends World {
-    private Tile[][] tiles = new Tile[32][24];
+    private static Tile[][] tiles = new Tile[32][24];
     
     public GameWorld() {    
         // Create a new world with 32x24 cells with a cell size of 1x1 pixels.
@@ -61,6 +63,8 @@ public class GameWorld extends World {
                 }
             }
         }
-        t.setImage("mine-selected.png");
+        if(t.returnHasMine()) {
+            t.setImage("mine-selected.png");
+        }
     }
 }
