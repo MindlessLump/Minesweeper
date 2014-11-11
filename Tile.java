@@ -3,45 +3,68 @@ import java.util.List;
 import java.util.Iterator;
 
 /**
- * Write a description of class Tile here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ * The class for an individual Tile, containing information about whether it has a mine, whether it is flagged,
+ * and how many adjacent Tiles have mines.
+ * @author Erik Martin
+ * @version 2014.11.11
  */
 public class Tile extends Actor {
     private boolean hasMine, flagged;
     private int x, y;
     private int adjacentMines;
     
+    /**
+     * Act method; checks for the mouse being left- or right-clicked on the Tile.
+     */
     public void act() {
         //Test for the mouse being clicked on this cell
         MouseInfo mouse = Greenfoot.getMouseInfo();
         int mouseX = 0, mouseY = 0;
         
         if(Greenfoot.mouseClicked(this)) {
-            if(mouse.getButton() == 1)
+            if(mouse.getButton() == 1) //Left
                 this.doClicked();
-            else if(mouse.getButton() == 3)
+            else if(mouse.getButton() == 3) //Right
                 this.doFlagged();
         }
     }
     
+    /**
+     * Set the x-position of the Tile in the GameWorld grid.
+     * @param tempX the new x-position.
+     */
     public void setX(int tempX) {
         x = tempX;
     }
     
+    /**
+     * Return the current x-position of the Tile in the GameWorld grid.
+     * @return x the current x-position.
+     */
     public int getX() {
         return x;
     }
     
+    /**
+     * Set the y-position of the Tile in the GameWorld grid.
+     * @param tempY the new y-position.
+     */
     public void setY(int tempY) {
         y = tempY;
     }
     
+    /**
+     * Return the current y-position of the Tile in the GameWorld grid.
+     * @return y the current y-position.
+     */
     public int getY() {
         return y;
     }
     
+    /**
+     * Iterates through all adjacent Tiles and adds up the number that have a mine.
+     * Stores this number in a class variable.
+     */
     public void findAdjacentMines() {
         List<Tile> adjacent = getObjectsInRange(1, Tile.class);
         Iterator itr = adjacent.iterator();
@@ -55,26 +78,57 @@ public class Tile extends Actor {
         adjacentMines = num;
     }
     
+    /**
+     * Return the number of adjacent Tiles that have a mine.
+     * @return adjacentMines the number of adjacent mines.
+     */
     public int getAdjacentMines() {
         return adjacentMines;
     }
     
-    public void setHasMine(boolean b) {
-        hasMine = b;
+    /**
+     * Set whether the Tile has a mine.
+     * @param mine a boolean stating whether the Tile has a mine.
+     */
+    public void setHasMine(boolean mine) {
+        hasMine = mine;
     }
     
+    /**
+     * Return whether the Tile has a mine.
+     * @return hasMine a boolean stating whether the Tile has a mine.
+     */
     public boolean returnHasMine() {
         return hasMine;
     }
     
+    /**
+     * Set whether the Tile is flagged.
+     * @param flag a boolean stating whether the Tile is flagged.
+     */
     public void setFlagged(boolean flag) {
         flagged = flag;
     }
     
+    /**
+     * Return whether the Tile is flagged.
+     * @return flagged a boolean stating whether the Tile is flagged.
+     */
     public boolean returnFlagged() {
         return flagged;
     }
     
+    /**
+     * Fulfill the correct actions for when the Tile is left-clicked.
+     * If the tile has a mine, call the GameWorld method revealMines.
+     * If the tile does not have a mine, reveal the tile with the number of adjacent mines displayed.
+     * If an adjacent tile has no mines nearby (and is thus "empty") reveal all connected "empty" tiles,
+     *   by calling the Tile method revealAdjacent.
+     * If, however, the adjacent Tiles are incorrectly flagged, call the GameWorld method revealMines.
+     * 
+     * @see #revealAdjacent(Tile tile)
+     * @see GameWorld#revealMines(Tile tile)
+     */
     public void doClicked() {
         if(hasMine) {
             GameWorld.revealMines(this);
@@ -137,6 +191,9 @@ public class Tile extends Actor {
         }
     }
     
+    /**
+     * Add or remove a flag to/from a Tile.
+     */
     public void doFlagged() {
         if(!flagged) {
             setImage("flag.png");
@@ -147,8 +204,15 @@ public class Tile extends Actor {
         }
     }
     
-    public static void revealAdjacent(Tile t) {
-        List<Tile> adjacent = t.getObjectsInRange(1, Tile.class);
+    /**
+     * Reveal all adjacent "empty" Tiles. This method is designed to call itself recursively in conjunction with
+     *   the Tile method doClicked.
+     * @param tile the Tile originally clicked.
+     * 
+     * @see #doClicked()
+     */
+    public static void revealAdjacent(Tile tile) {
+        List<Tile> adjacent = tile.getObjectsInRange(1, Tile.class);
         Iterator iter = adjacent.iterator();
         while(iter.hasNext()) {
             Tile temp = (Tile)iter.next();

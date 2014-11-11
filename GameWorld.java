@@ -3,11 +3,20 @@ import java.util.Random;
 import java.util.List;
 import java.util.Iterator;
 
+/**
+ * <b>A general world class for the Minesweeper game.</b>
+ * @author Erik Martin
+ * @version 2014.11.11
+ */
 public class GameWorld extends World {
     private static Tile[][] tiles = new Tile[32][24];
     
+    /**
+     * Creates a world of 32x24 Tile objects, randomly picks which Tile objects have mines,
+     * and adds the Tile objects to the world.
+     */
     public GameWorld() {    
-        // Create a new world with 32x24 cells with a cell size of 1x1 pixels.
+        // Create a new world with 32x24 cells with a cell size of 24x24 pixels.
         super(32, 24, 24); 
         
         //Declare the game cells and add them to the world
@@ -52,7 +61,11 @@ public class GameWorld extends World {
         }
     }
     
-    public static void revealMines(Tile t) {
+    /**
+     * Once a Tile with a mine is selected, the world reveals all unflagged mines and incorrectly flagged cells.
+     * @param tile the Tile that was incorrectly selected.
+     */
+    public static void revealMines(Tile tile) {
         for(int j = 0; j < tiles.length; j++) {
             for(int k = 0; k < tiles[j].length; k++) {
                 if(tiles[j][k].returnHasMine() && !tiles[j][k].returnFlagged()) { //Has a mine and is not flagged
@@ -63,8 +76,8 @@ public class GameWorld extends World {
                 }
             }
         }
-        if(t.returnHasMine()) {
-            t.setImage("mine-selected.png");
+        if(tile.returnHasMine()) {
+            tile.setImage("mine-selected.png");
         }
     }
 }

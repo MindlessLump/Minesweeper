@@ -1,6 +1,8 @@
 #BlueJ class context
 comment0.params=
 comment0.target=GameWorld()
-comment1.params=t
+comment0.text=\r\n\ Creates\ a\ world\ of\ 32x24\ Tile\ objects,\ randomly\ picks\ which\ Tile\ objects\ have\ mines,\r\n\ and\ adds\ the\ Tile\ objects\ to\ the\ world.\r\n
+comment1.params=tile
 comment1.target=void\ revealMines(Tile)
+comment1.text=\r\n\ Once\ a\ Tile\ with\ a\ mine\ is\ selected,\ the\ world\ reveals\ all\ unflagged\ mines\ and\ incorrectly\ flagged\ cells.\r\n\ @param\ tile\ the\ Tile\ that\ was\ incorrectly\ selected.\r\n
 numComments=2
